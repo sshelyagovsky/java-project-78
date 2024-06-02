@@ -11,7 +11,7 @@ public class BaseSchema<T> {
     private String contains = "";
     private boolean positive = false;
     private final Map<Integer, Integer> range = new HashMap<>();
-
+    private int mapSize;
 
     protected void setRequired(boolean required) {
         this.required = required;
@@ -29,8 +29,12 @@ public class BaseSchema<T> {
         this.positive = positive;
     }
 
-    public void setRange(int min, int max) {
+    protected void setRange(int min, int max) {
         range.put(min, max);
+    }
+
+    protected void setMapSize(int size) {
+        this.mapSize = size;
     }
 
     public boolean isValid(T input) {
@@ -60,6 +64,13 @@ public class BaseSchema<T> {
                         .stream()
                         .anyMatch((e) -> ((Integer) input >= e.getKey()) && ((Integer) input <= e.getValue()));
                 if (!result) {
+                    return false;
+                }
+            }
+
+            if (mapSize > 0) {
+                Map<String, String> map = new HashMap<>((Map<String, String>) input);
+                if (map.size() != mapSize) {
                     return false;
                 }
             }
