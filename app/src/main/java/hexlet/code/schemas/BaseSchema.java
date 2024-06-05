@@ -10,20 +10,20 @@ public abstract class BaseSchema<T> {
     private final List<Predicate<T>> predicates = new ArrayList<>();
 
 
-    protected void setRequired() {
+    protected final void setRequired() {
         this.required = true;
     }
 
-    protected void setPredicate(Predicate<T> predicate) {
+    protected final void setPredicate(Predicate<T> predicate) {
         predicates.add(predicate);
     }
 
-    protected void updatePredicate(Predicate<T> predicate) {
+    protected final void updatePredicate(Predicate<T> predicate) {
         predicates.clear();
         predicates.add(predicate);
     }
 
-    public boolean isValid(T input) {
+    public final boolean isValid(T input) {
 
         if (input == null || input.equals("")) {
             if (required) {
