@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class BaseSchema<T> {
+public abstract class BaseSchema<T> {
 
     private boolean required = false;
     private final List<Predicate<T>> predicates = new ArrayList<>();
