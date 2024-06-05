@@ -5,13 +5,10 @@ plugins {
     application
     jacoco
     id("checkstyle")
-    id("io.freefair.lombok") version "8.6"
+    id("se.patrikerdes.use-latest-versions") version "0.2.18"
+    id("com.github.mrsarm.jshell.plugin") version "1.2.1"
     id("com.github.ben-manes.versions") version "0.50.0"
 
-}
-
-application {
-    mainClass = "hexlet.code.App"
 }
 
 group = "hexlet.code"
@@ -26,7 +23,6 @@ tasks.compileJava {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-lang3:3.12.0")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.22.0")

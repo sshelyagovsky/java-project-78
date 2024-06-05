@@ -30,6 +30,11 @@ lint:
 check-deps:
 	./gradlew dependencyUpdates -Drevision=release
 
+validator:
+	./gradlew --console plain jshell
+
+
 build-run: build run
+
 
 .PHONY: build
