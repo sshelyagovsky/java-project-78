@@ -1,40 +1,26 @@
 package hexlet.code.schemas;
 
-import org.apache.commons.lang3.StringUtils;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class BaseSchema<T> {
 
     private boolean required = false;
-    private int minLength = 0;
-    private String contains = "";
-    private boolean positive = false;
-    private final Map<Integer, Integer> range = new HashMap<>();
-    private int mapSize;
+    private final List<Predicate<T>> predicates = new ArrayList<>();
 
-    protected void setRequired(boolean required) {
-        this.required = required;
+
+    protected void setRequired() {
+        this.required = true;
     }
 
-    protected void setMinLength(int minLength) {
-        this.minLength = minLength;
+    protected void setPredicate(Predicate<T> predicate) {
+        predicates.add(predicate);
     }
 
-    protected void setSubstring(String substring) {
-        this.contains = substring;
-    }
-
-    protected void setPositive(boolean positive) {
-        this.positive = positive;
-    }
-
-    protected void setRange(int min, int max) {
-        range.put(min, max);
-    }
-
-    protected void setMapSize(int size) {
-        this.mapSize = size;
+    protected void updatePredicate(Predicate<T> predicate) {
+        predicates.clear();
+        predicates.add(predicate);
     }
 
     public boolean isValid(T input) {
@@ -44,33 +30,8 @@ public class BaseSchema<T> {
                 return false;
             }
         } else {
-            if (minLength > input.toString().length()) {
-                return false;
-            }
-
-            if (!contains.isEmpty()) {
-                return StringUtils.containsIgnoreCase((String) input, contains);
-            }
-
-            if (positive) {
-                if ((Integer) input <= 0) {
-                    return false;
-                }
-            }
-
-            if (!range.entrySet().isEmpty()) {
-
-                var result = range.entrySet()
-                        .stream()
-                        .anyMatch((e) -> ((Integer) input >= e.getKey()) && ((Integer) input <= e.getValue()));
-                if (!result) {
-                    return false;
-                }
-            }
-
-            if (mapSize > 0) {
-                Map<String, String> map = new HashMap<>((Map<String, String>) input);
-                if (map.size() != mapSize) {
+            for (Predicate<T> p : predicates) {
+                if (!p.test(input)) {
                     return false;
                 }
             }
