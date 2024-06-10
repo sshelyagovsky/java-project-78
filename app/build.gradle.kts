@@ -2,7 +2,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    application
     jacoco
     id("checkstyle")
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
